@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAK Placement Dashboard - Wireframes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .wireframe {
+            background: white;
+            border: 2px solid #333;
+            margin: 30px 0;
+            padding: 20px;
+            max-width: 1200px;
+        }
+        .wireframe h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .header {
+            border: 1px solid #666;
+            padding: 15px;
+            background: #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-link {
+            border: 1px solid #666;
+            padding: 8px 16px;
+            background: #ddd;
+        }
+        .widget-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .widget {
+            border: 1px solid #666;
+            padding: 15px;
+            background: #f9f9f9;
+            min-height: 120px;
+        }
+        .widget h3 {
+            margin-top: 0;
+            border-bottom: 1px solid #999;
+            padding-bottom: 5px;
+        }
+        .table-mock {
+            border: 1px solid #666;
+            width: 100%;
+            margin: 20px 0;
+        }
+        .table-header {
+            background: #ddd;
+            padding: 10px;
+            border-bottom: 1px solid #666;
+            display: flex;
+            justify-content: space-between;
+        }
+        .table-row {
+            padding: 8px 10px;
+            border-bottom: 1px solid #ccc;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr 1fr;
+            gap: 10px;
+            align-items: center;
+        }
+        .filters {
+            background: #f0f0f0;
+            padding: 15px;
+            border: 1px solid #666;
+            margin: 10px 0;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .filter-item {
+            border: 1px solid #999;
+            padding: 5px 10px;
+            background: white;
+        }
+        .detail-section {
+            border: 1px solid #666;
+            margin: 15px 0;
+            padding: 15px;
+        }
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .form-field {
+            border: 1px solid #ccc;
+            padding: 8px;
+            margin: 5px 0;
+            background: #fafafa;
+        }
+        .button {
+            border: 1px solid #333;
+            padding: 8px 16px;
+            background: #ddd;
+            cursor: pointer;
+        }
+        .button.primary {
+            background: #007bff;
+            color: white;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border: 1px solid #666;
+            font-size: 12px;
+        }
+        .status-submitted { background: #ffeaa7; }
+        .status-draft { background: #fab1a0; }
+        .status-pending { background: #74b9ff; }
+        .status-public { background: #00b894; }
+        .user-info {
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. DASHBOARD HOMEPAGE (Placement Leads) -->
+    <div class="wireframe">
+        <h2>1. Dashboard Homepage - Placement Team Lead View</h2>
+
+        <div class="header">
+            <div>
+                <strong>SOAK Placement Dashboard</strong>
+                <div class="user-info">Logged in: John Doe (Placement Lead)</div>
+            </div>
+            <div class="nav-links">
+                <div class="nav-link">Dashboard</div>
+                <div class="nav-link">All Camps</div>
+                <div class="nav-link">Reports</div>
+                <div class="nav-link">Settings</div>
+                <div class="nav-link">Logout</div>
+            </div>
+        </div>
+
+        <div class="widget-grid">
+            <div class="widget">
+                <h3>Total Camps</h3>
+                <div style="font-size: 24px; font-weight: bold;">127</div>
+                <div>↑ 15 new this week</div>
+            </div>
+
+            <div class="widget">
+                <h3>Status Breakdown</h3>
+                <div>Submitted: 45</div>
+                <div>Draft: 23</div>
+                <div>Pending: 38</div>
+                <div>Public: 21</div>
+            </div>
+
+            <div class="widget">
+                <h3>Fire Art Safety Review</h3>
+                <div>Needs Review: 12</div>
+                <div>Safety Plans Complete: 8</div>
+                <div>Missing Info: 4</div>
+                <div class="button" style="margin-top: 10px;">View Fire Art Queue</div>
+            </div>
+
+            <div class="widget">
+                <h3>Placement Progress</h3>
+                <div>Camps Placed: 21/127</div>
+                <div>Neighborhoods:</div>
+                <div>• Main Plaza: 5/15</div>
+                <div>• Quiet Zone: 3/10</div>
+                <div>• Sound Camps: 8/20</div>
+            </div>
+
+            <div class="widget">
+                <h3>Recent Activity</h3>
+                <div>• Camp "Disco Inferno" submitted</div>
+                <div>• "Art Haven" moved to Pending</div>
+                <div>• Fire safety approved for "Phoenix"</div>
+                <div>• 3 camps need size verification</div>
+            </div>
+
+            <div class="widget">
+                <h3>Quick Actions</h3>
+                <div class="button" style="margin: 5px 0;">Bulk Status Update</div>
+                <div class="button" style="margin: 5px 0;">Export Camp List</div>
+                <div class="button" style="margin: 5px 0;">Generate Reports</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MASTER CAMP LIST -->
+    <div class="wireframe">
+        <h2>2. Master Camp List - Placement Team View</h2>
+
+        <div class="header">
+            <div><strong>All Camps (127)</strong></div>
+            <div class="nav-links">
+                <div class="nav-link">Dashboard</div>
+                <div class="nav-link"><strong>All Camps</strong></div>
+                <div class="nav-link">Reports</div>
+                <div class="button primary">Add New Camp</div>
+            </div>
+        </div>
+
+        <div class="filters">
+            <div class="filter-item">Status: [All ▼]</div>
+            <div class="filter-item">Neighborhood: [All ▼]</div>
+            <div class="filter-item">Size: [All ▼]</div>
+            <div class="filter-item">Fire Art: [All ▼]</div>
+            <div class="filter-item">Sound Camp: [All ▼]</div>
+            <div class="filter-item">Search: [_____________]</div>
+            <div class="button">Apply Filters</div>
+            <div class="button">Clear All</div>
+        </div>
+
+        <div class="table-mock">
+            <div class="table-header">
+                <div>
+                    <input type="checkbox"> Select All (5 selected)
+                </div>
+                <div>
+                    <div class="button">Bulk Actions ▼</div>
+                    <div class="button primary">Export Selected</div>
+                </div>
+            </div>
+
+            <div class="table-row" style="background: #eee; font-weight: bold;">
+                <div>Camp Name ↕</div>
+                <div>Status ↕</div>
+                <div>Contact ↕</div>
+                <div>Size ↕</div>
+                <div>Neighborhood ↕</div>
+                <div>Fire Art ↕</div>
+                <div>Actions</div>
+            </div>
+
+            <div class="table-row">
+                <div><input type="checkbox"> Disco Inferno</div>
+                <div><span class="status-badge status-submitted">Submitted</span></div>
+                <div>jane@email.com</div>
+                <div>30x40</div>
+                <div>Sound Zone</div>
+                <div>No</div>
+                <div><div class="button">View</div> <div class="button">Edit</div></div>
+            </div>
+
+            <div class="table-row">
+                <div><input type="checkbox"> Art Haven</div>
+                <div><span class="status-badge status-pending">Pending</span></div>
+                <div>bob@email.com</div>
+                <div>20x30</div>
+                <div>Main Plaza</div>
+                <div>Yes</div>
+                <div><div class="button">View</div> <div class="button">Edit</div></div>
+            </div>
+
+            <div class="table-row">
+                <div><input type="checkbox"> Phoenix Rising</div>
+                <div><span class="status-badge status-public">Public</span></div>
+                <div>sara@email.com</div>
+                <div>25x25</div>
+                <div>Art Zone</div>
+                <div>Yes</div>
+                <div><div class="button">View</div> <div class="button">Edit</div></div>
+            </div>
+
+            <div class="table-row">
+                <div>⋮ ⋮ ⋮ Additional rows ⋮ ⋮ ⋮</div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+
+        <div style="padding: 10px; border-top: 1px solid #ccc;">
+            Showing 1-25 of 127 camps |
+            <div class="button">← Previous</div>
+            <div class="button">Next →</div>
+        </div>
+    </div>
+
+    <!-- 3. CAMP DETAIL VIEW -->
+    <div class="wireframe">
+        <h2>3. Camp Detail View - Placement Team</h2>
+
+        <div class="header">
+            <div>
+                <strong>Camp: Disco Inferno</strong>
+                <div class="user-info">Status: <span class="status-badge status-submitted">Submitted</span> | Last Updated: 2025-09-10</div>
+            </div>
+            <div class="nav-links">
+                <div class="button">← Back to List</div>
+                <div class="button">Previous Camp</div>
+                <div class="button">Next Camp</div>
+                <div class="button primary">Save Changes</div>
+            </div>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <div class="detail-section">
+                    <h3>Basic Information</h3>
+                    <div class="form-field"><strong>Camp Name:</strong> Disco Inferno</div>
+                    <div class="form-field"><strong>Contact Name:</strong> Jane Smith</div>
+                    <div class="form-field"><strong>Email:</strong> jane@discoinferno.com</div>
+                    <div class="form-field"><strong>Phone:</strong> (555) 123-4567</div>
+                    <div class="form-field"><strong>Population:</strong> 25 people</div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Infrastructure & Size</h3>
+                    <div class="form-field"><strong>Requested Size:</strong> 30x40 feet</div>
+                    <div class="form-field"><strong>Power Needs:</strong> 30A, 220V</div>
+                    <div class="form-field"><strong>Water Access:</strong> Required</div>
+                    <div class="form-field"><strong>Structures:</strong> 2 shade structures, DJ booth</div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Interactivity</h3>
+                    <div class="form-field"><strong>Interactive Elements:</strong><br>
+                    ☑ Music/DJ<br>
+                    ☑ Dancing<br>
+                    ☐ Workshops<br>
+                    ☑ Games/Activities</div>
+                    <div class="form-field"><strong>Description:</strong><br>
+                    "A 70s disco-themed dance camp with nightly DJ sets, disco ball installations, and dance lessons for participants..."</div>
+                </div>
+            </div>
+
+            <div>
+                <div class="detail-section">
+                    <h3>Placement Decisions (SOAK Only)</h3>
+                    <div class="form-field">
+                        <strong>Status:</strong>
+                        <select style="margin-left: 10px;">
+                            <option>Submitted</option>
+                            <option>Draft</option>
+                            <option>Pending</option>
+                            <option>Public</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <strong>Placement Approved:</strong>
+                        <input type="radio" name="approved" value="yes"> Yes
+                        <input type="radio" name="approved" value="no"> No
+                        <input type="radio" name="approved" value="pending" checked> Pending
+                    </div>
+                    <div class="form-field">
+                        <strong>Assigned Location (WKT):</strong><br>
+                        <textarea style="width: 100%; height: 40px;">POINT(-122.4194 37.7749)</textarea>
+                    </div>
+                    <div class="form-field">
+                        <strong>DGS Allocation:</strong><br>
+                        Number: <input type="text" style="width: 60px;">
+                        Code: <input type="text" style="width: 80px;">
+                    </div>
+                    <div class="form-field">
+                        <strong>Internal Notes:</strong><br>
+                        <textarea style="width: 100%; height: 60px;">Noise concerns from neighboring quiet camps. Consider placement in sound zone.</textarea>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Sound Camp Info</h3>
+                    <div class="form-field"><strong>Sound Camp:</strong> Yes</div>
+                    <div class="form-field"><strong>Volume Level:</strong> High (outdoor dance)</div>
+                    <div class="form-field"><strong>Hours of Operation:</strong> 8PM - 2AM</div>
+                    <div class="form-field"><strong>Sound Equipment:</strong> Professional DJ setup, 4000W speakers</div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Fire Art Info</h3>
+                    <div class="form-field"><strong>Fire Art:</strong> No</div>
+                    <div class="form-field" style="color: #999;">No fire art information submitted</div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Neighborhood Preference</h3>
+                    <div class="form-field"><strong>Requested:</strong> Sound Zone or Main Plaza</div>
+                    <div class="form-field"><strong>Reason:</strong> "Need area that supports loud music and dancing"</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; border-top: 2px solid #333; text-align: center;">
+            <div class="button">Delete Camp</div>
+            <div class="button">Send Message to Camp</div>
+            <div class="button">Export Camp Data</div>
+            <div class="button primary">Save All Changes</div>
+        </div>
+    </div>
+
+    <!-- 4. CAMP REPRESENTATIVE VIEW -->
+    <div class="wireframe">
+        <h2>4. Camp Representative View - Limited Access</h2>
+
+        <div class="header">
+            <div>
+                <strong>My Camp: Disco Inferno</strong>
+                <div class="user-info">Logged in: Jane Smith (Camp Representative)</div>
+            </div>
+            <div class="nav-links">
+                <div class="nav-link">My Camp</div>
+                <div class="nav-link">Edit Info</div>
+                <div class="nav-link">Logout</div>
+            </div>
+        </div>
+
+        <div style="background: #e8f4fd; padding: 15px; border: 1px solid #2196F3; margin: 20px 0;">
+            <strong>Placement Status: </strong><span class="status-badge status-submitted">Submitted</span>
+            <div style="margin-top: 5px;">Your camp registration has been submitted and is under review by the placement team.</div>
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <div class="detail-section">
+                    <h3>Your Camp Information</h3>
+                    <div class="form-field"><strong>Camp Name:</strong> Disco Inferno</div>
+                    <div class="form-field"><strong>Contact Name:</strong> Jane Smith</div>
+                    <div class="form-field"><strong>Email:</strong> jane@discoinferno.com</div>
+                    <div class="form-field"><strong>Phone:</strong> (555) 123-4567</div>
+                    <div class="form-field"><strong>Population:</strong> 25 people</div>
+                    <div style="margin-top: 10px;">
+                        <div class="button primary">Edit Contact Info</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Infrastructure & Size</h3>
+                    <div class="form-field"><strong>Requested Size:</strong> 30x40 feet</div>
+                    <div class="form-field"><strong>Power Needs:</strong> 30A, 220V</div>
+                    <div class="form-field"><strong>Water Access:</strong> Required</div>
+                    <div class="form-field"><strong>Structures:</strong> 2 shade structures, DJ booth</div>
+                    <div style="margin-top: 10px;">
+                        <div class="button primary">Edit Infrastructure</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Interactivity</h3>
+                    <div class="form-field"><strong>Interactive Elements:</strong><br>
+                    ☑ Music/DJ<br>
+                    ☑ Dancing<br>
+                    ☐ Workshops<br>
+                    ☑ Games/Activities</div>
+                    <div class="form-field"><strong>Description:</strong><br>
+                    "A 70s disco-themed dance camp with nightly DJ sets..."</div>
+                    <div style="margin-top: 10px;">
+                        <div class="button primary">Edit Activities</div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="detail-section">
+                    <h3>Sound Camp Details</h3>
+                    <div class="form-field"><strong>Sound Camp:</strong> Yes</div>
+                    <div class="form-field"><strong>Volume Level:</strong> High (outdoor dance)</div>
+                    <div class="form-field"><strong>Hours of Operation:</strong> 8PM - 2AM</div>
+                    <div class="form-field"><strong>Sound Equipment:</strong> Professional DJ setup, 4000W speakers</div>
+                    <div style="margin-top: 10px;">
+                        <div class="button primary">Edit Sound Info</div>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Neighborhood Preference</h3>
+                    <div class="form-field"><strong>Requested:</strong> Sound Zone or Main Plaza</div>
+                    <div class="form-field"><strong>Reason:</strong> "Need area that supports loud music and dancing"</div>
+                    <div style="margin-top: 10px;">
+                        <div class="button primary">Edit Preferences</div>
+                    </div>
+                </div>
+
+                <!-- PLACEMENT DECISIONS (Read-only for camp reps) -->
+                <div class="detail-section" style="background: #f9f9f9;">
+                    <h3>Placement Decision</h3>
+                    <div style="color: #666; font-style: italic; margin-bottom: 10px;">
+                        This information will be updated by the placement team
+                    </div>
+                    <div class="form-field" style="background: #f0f0f0;">
+                        <strong>Placement Status:</strong> Under Review
+                    </div>
+                    <div class="form-field" style="background: #f0f0f0;">
+                        <strong>Assigned Location:</strong> TBD
+                    </div>
+                    <div class="form-field" style="background: #f0f0f0;">
+                        <strong>DGS Information:</strong> Will be provided upon approval
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; border-top: 2px solid #333; text-align: center;">
+            <div class="button">Download My Camp Info</div>
+            <div class="button">Contact Placement Team</div>
+            <div class="button primary">Save Changes</div>
+        </div>
+    </div>
+
+    <!-- 5. CAMP EDIT FORM (Camp Representative) -->
+    <div class="wireframe">
+        <h2>5. Edit Camp Information - Camp Representative</h2>
+
+        <div class="header">
+            <div>
+                <strong>Edit Camp: Disco Inferno</strong>
+                <div class="user-info">You can only edit information you originally submitted</div>
+            </div>
+            <div class="nav-links">
+                <div class="button">← Back to My Camp</div>
+                <div class="button primary">Save Changes</div>
+                <div class="button">Cancel</div>
+            </div>
+        </div>
+
+        <div style="background: #fff3cd; padding: 15px; border: 1px solid #856404; margin: 20px 0;">
+            <strong>Note:</strong> Changes to your camp information may require re-review by the placement team.
+            Your placement status may change to "Under Review" after submitting changes.
+        </div>
+
+        <div class="detail-grid">
+            <div>
+                <div class="detail-section">
+                    <h3>Contact Information</h3>
+                    <div style="margin: 10px 0;">
+                        <strong>Camp Name:</strong><br>
+                        <input type="text" value="Disco Inferno" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Contact Name:</strong><br>
+                        <input type="text" value="Jane Smith" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Email:</strong><br>
+                        <input type="email" value="jane@discoinferno.com" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Phone:</strong><br>
+                        <input type="tel" value="(555) 123-4567" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Population:</strong><br>
+                        <input type="number" value="25" style="width: 100px; padding: 8px;"> people
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Infrastructure & Size</h3>
+                    <div style="margin: 10px 0;">
+                        <strong>Requested Size:</strong><br>
+                        <input type="text" value="30x40 feet" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Power Needs:</strong><br>
+                        <input type="text" value="30A, 220V" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Water Access Required:</strong><br>
+                        <input type="radio" name="water" value="yes" checked> Yes
+                        <input type="radio" name="water" value="no"> No
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Structures/Equipment:</strong><br>
+                        <textarea style="width: 100%; height: 60px; padding: 8px;">2 shade structures, DJ booth</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="detail-section">
+                    <h3>Interactivity</h3>
+                    <div style="margin: 10px 0;">
+                        <strong>Interactive Elements:</strong><br>
+                        <input type="checkbox" checked> Music/DJ<br>
+                        <input type="checkbox" checked> Dancing<br>
+                        <input type="checkbox"> Workshops<br>
+                        <input type="checkbox" checked> Games/Activities<br>
+                        <input type="checkbox"> Art Creation<br>
+                        <input type="checkbox"> Food/Beverages
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Detailed Description:</strong><br>
+                        <textarea style="width: 100%; height: 80px; padding: 8px;">A 70s disco-themed dance camp with nightly DJ sets, disco ball installations, and dance lessons for participants...</textarea>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Sound Camp Information</h3>
+                    <div style="margin: 10px 0;">
+                        <strong>Is this a sound camp?</strong><br>
+                        <input type="radio" name="soundcamp" value="yes" checked> Yes
+                        <input type="radio" name="soundcamp" value="no"> No
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Volume Level:</strong><br>
+                        <select style="width: 100%; padding: 8px;">
+                            <option>Low (background/ambient)</option>
+                            <option>Medium (conversation level)</option>
+                            <option selected>High (outdoor dance)</option>
+                        </select>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Hours of Operation:</strong><br>
+                        <input type="text" value="8PM - 2AM" style="width: 100%; padding: 8px;">
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Sound Equipment Description:</strong><br>
+                        <textarea style="width: 100%; height: 60px; padding: 8px;">Professional DJ setup, 4000W speakers</textarea>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <h3>Neighborhood Preference</h3>
+                    <div style="margin: 10px 0;">
+                        <strong>Preferred Neighborhood:</strong><br>
+                        <select style="width: 100%; padding: 8px;">
+                            <option>No Preference</option>
+                            <option>Main Plaza</option>
+                            <option selected>Sound Zone</option>
+                            <option>Art Zone</option>
+                            <option>Quiet Zone</option>
+                            <option>Family Area</option>
+                        </select>
+                    </div>
+                    <div style="margin: 10px 0;">
+                        <strong>Reason for Preference:</strong><br>
+                        <textarea style="width: 100%; height: 60px; padding: 8px;">Need area that supports loud music and dancing</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 20px; padding: 15px; border-top: 2px solid #333; text-align: center;">
+            <div class="button">Cancel Changes</div>
+            <div class="button">Save as Draft</div>
+            <div class="button primary">Submit Changes</div>
+        </div>
+    </div>
+
+    <!-- 6. LOGIN/AUTHENTICATION -->
+    <div class="wireframe">
+        <h2>6. Login & Authentication</h2>
+
+        <div style="max-width: 400px; margin: 50px auto; padding: 40px; border: 2px solid #333; background: white;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2 style="margin: 0;">SOAK Placement Dashboard</h2>
+                <div style="color: #666; margin-top: 5px;">Regional Burning Man Event</div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong>Email:</strong><br>
+                <input type="email" placeholder="your@email.com" style="width: 100%; padding: 12px; margin-top: 5px;">
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong>Password:</strong><br>
+                <input type="password" placeholder="••••••••" style="width: 100%; padding: 12px; margin-top: 5px;">
+            </div>
+
+            <div style="margin: 20px 0;">
+                <input type="checkbox"> Remember me
+            </div>
+
+            <div style="margin: 30px 0;">
+                <div class="button primary" style="width: 100%; text-align: center; padding: 12px;">Login</div>
+            </div>
+
+            <div style="text-align: center; color: #666; font-size: 14px;">
+                <div style="margin: 10px 0;">
+                    <a href="#" style="color: #007bff;">Forgot your password?</a>
+                </div>
+                <div style="margin: 10px 0;">
+                    New camp? <a href="#" style="color: #007bff;">Register here</a>
+                </div>
+            </div>
+
+            <div style="border-top: 1px solid #ccc; margin-top: 30px; padding-top: 20px; font-size: 12px; color: #666;">
+                <strong>Access Levels:</strong><br>
+                • Placement Team: Full access to all camps and placement decisions<br>
+                • Camp Representatives: Limited to your own camp information
+            </div>
+        </div>
+
+        <!-- Role-based redirect flow -->
+        <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border: 1px solid #ccc;">
+            <h3>Post-Login Flow</h3>
+            <div style="margin: 10px 0;">
+                <strong>If Placement Team:</strong> → Dashboard Homepage (with widgets and overview)
+            </div>
+            <div style="margin: 10px 0;">
+                <strong>If Camp Representative:</strong> → My Camp View (limited access to their camp only)
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

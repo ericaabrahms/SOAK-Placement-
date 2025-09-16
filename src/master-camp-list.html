@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOAK Placement - Master Camp List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f5f5;
+            font-size: 14px;
+        }
+        .wireframe {
+            background: white;
+            border: 2px solid #333;
+            margin: 30px 0;
+            padding: 20px;
+            max-width: 1400px;
+        }
+        .wireframe h2 {
+            margin-top: 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        .header {
+            border: 1px solid #666;
+            padding: 15px;
+            background: #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+        .nav-link {
+            border: 1px solid #666;
+            padding: 8px 16px;
+            background: #ddd;
+        }
+        .filters-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border: 1px solid #666;
+            margin: 15px 0;
+        }
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            min-width: 120px;
+        }
+        .filter-item label {
+            font-weight: bold;
+            margin-bottom: 3px;
+            font-size: 12px;
+        }
+        .filter-item select, .filter-item input {
+            border: 1px solid #999;
+            padding: 6px 8px;
+            background: white;
+        }
+        .bulk-actions {
+            background: #e3f2fd;
+            padding: 15px;
+            border: 1px solid #2196F3;
+            margin: 10px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-container {
+            border: 1px solid #666;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .table-mock {
+            width: 100%;
+            min-width: 8000px;
+            border-collapse: collapse;
+        }
+        .table-mock th {
+            background: #ddd;
+            padding: 12px 8px;
+            border: 1px solid #666;
+            text-align: left;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        .table-mock td {
+            padding: 10px 8px;
+            border: 1px solid #ccc;
+            vertical-align: top;
+        }
+        .table-mock tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        .table-mock tr:hover {
+            background: #e8f4fd;
+        }
+        .status-badge {
+            padding: 4px 8px;
+            border: 1px solid #666;
+            font-size: 11px;
+            border-radius: 3px;
+            white-space: nowrap;
+        }
+        .status-submitted { background: #ffeaa7; }
+        .status-draft { background: #fab1a0; }
+        .status-pending { background: #74b9ff; color: white; }
+        .status-public { background: #00b894; color: white; }
+        .standing-good { color: #00b894; font-weight: bold; }
+        .standing-jeopardized { color: #e17055; font-weight: bold; }
+        .standing-bad { color: #d63031; font-weight: bold; }
+        .camp-type-theme { background: #a29bfe; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+        .camp-type-support { background: #fd79a8; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+        .camp-type-work { background: #fdcb6e; color: black; padding: 2px 6px; border-radius: 3px; font-size: 10px; }
+        .button {
+            border: 1px solid #333;
+            padding: 6px 12px;
+            background: #ddd;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .button.primary {
+            background: #007bff;
+            color: white;
+        }
+        .button.small {
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+        .actions-cell {
+            white-space: nowrap;
+        }
+        .checkbox-cell {
+            text-align: center;
+            width: 40px;
+        }
+        .notes-preview {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #666;
+            font-style: italic;
+        }
+        .priority-high { background: #ffe6e6; }
+        .priority-medium { background: #fff4e6; }
+        .priority-low { background: #e6ffe6; }
+        .fire-indicator { color: #e17055; font-weight: bold; }
+        .sound-indicator { color: #0984e3; font-weight: bold; }
+        .pagination {
+            padding: 15px;
+            border-top: 1px solid #ccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f8f9fa;
+        }
+        .column-sort {
+            cursor: pointer;
+            user-select: none;
+        }
+        .column-sort:hover {
+            background: #ccc;
+        }
+        .sort-indicator {
+            font-size: 10px;
+            margin-left: 3px;
+        }
+        .dragging {
+            opacity: 0.5;
+            background: #e3f2fd !important;
+        }
+        .drag-over {
+            border-left: 3px solid #2196F3 !important;
+        }
+        .column-header {
+            position: relative;
+            cursor: move;
+        }
+        .column-header:hover {
+            background: #f0f0f0;
+        }
+        .column-resizer {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            cursor: col-resize;
+            background: transparent;
+        }
+        .column-resizer:hover {
+            background: #2196F3;
+        }
+        .filtered-row {
+            display: none !important;
+        }
+        .search-highlight {
+            background: yellow;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wireframe">
+        <h2>Master Camp List - Placement Team View</h2>
+
+        <!-- HEADER NAVIGATION -->
+        <div class="header">
+            <div>
+                <strong>All Camps (127 total)</strong>
+                <div style="font-size: 12px; color: #666; margin-top: 3px;">
+                    Last updated: 2025-09-15 2:30 PM
+                </div>
+            </div>
+            <div class="nav-links">
+                <div class="nav-link">← Dashboard</div>
+                <div class="nav-link"><strong>All Camps</strong></div>
+                <div class="nav-link">Fire Art Queue</div>
+                <div class="nav-link">Reports</div>
+                <div class="button primary">+ Add Camp</div>
+            </div>
+        </div>
+
+        <!-- ADVANCED FILTERS -->
+        <div class="filters-section">
+            <div style="font-weight: bold; margin-bottom: 15px;">📊 Advanced Filters & Search</div>
+
+            <div class="filter-row">
+                <div class="filter-item">
+                    <label>Status</label>
+                    <select>
+                        <option>All Statuses</option>
+                        <option>Submitted</option>
+                        <option>Draft</option>
+                        <option>Pending</option>
+                        <option>Public</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Camp Type</label>
+                    <select>
+                        <option>All Types</option>
+                        <option>Theme Camp</option>
+                        <option>Support Camp</option>
+                        <option>Work Support</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Standing</label>
+                    <select>
+                        <option>All Standings</option>
+                        <option>Good</option>
+                        <option>Jeopardized</option>
+                        <option>Bad</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Crew Size</label>
+                    <select>
+                        <option>All Sizes</option>
+                        <option>5-10 people</option>
+                        <option>11-20 people</option>
+                        <option>21-35 people</option>
+                        <option>36-50 people</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Neighborhood</label>
+                    <select>
+                        <option>All Neighborhoods</option>
+                        <option>Main Plaza</option>
+                        <option>Sound Zone</option>
+                        <option>Art Zone</option>
+                        <option>Quiet Zone</option>
+                        <option>Family Area</option>
+                        <option>No Preference</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="filter-row">
+                <div class="filter-item">
+                    <label>Fire Art</label>
+                    <select>
+                        <option>All</option>
+                        <option>Has Fire Art</option>
+                        <option>No Fire Art</option>
+                        <option>Safety Plan Missing</option>
+                        <option>Large Fire (10ft+)</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Sound Camp</label>
+                    <select>
+                        <option>All</option>
+                        <option>Sound Camp</option>
+                        <option>No Sound</option>
+                        <option>High Volume</option>
+                        <option>Late Night (12AM+)</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Power/Water</label>
+                    <select>
+                        <option>All</option>
+                        <option>30A+ Power</option>
+                        <option>Water Required</option>
+                        <option>Both Power & Water</option>
+                        <option>No Special Power</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Placement Priority</label>
+                    <select>
+                        <option>All Priorities</option>
+                        <option>High Priority</option>
+                        <option>Medium Priority</option>
+                        <option>Low Priority</option>
+                        <option>Needs Review</option>
+                    </select>
+                </div>
+
+                <div class="filter-item">
+                    <label>Assigned Reviewer</label>
+                    <select>
+                        <option>All Reviewers</option>
+                        <option>John Doe</option>
+                        <option>Jane Smith</option>
+                        <option>Mike Johnson</option>
+                        <option>Unassigned</option>
+                    </select>
+                </div>
+
+                <div class="filter-item" style="min-width: 200px;">
+                    <label>Search Camps</label>
+                    <input type="text" id="searchInput" placeholder="Camp name, contact, description..." onkeyup="performSearch()">
+                </div>
+
+                <div style="margin-top: 15px;">
+                    <div class="button primary" onclick="applyFilters()">Apply Filters</div>
+                    <div class="button" onclick="clearFilters()">Clear All</div>
+                    <div class="button">Save Filter Set</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BULK ACTIONS -->
+        <div class="bulk-actions">
+            <div>
+                <input type="checkbox" id="selectAll">
+                <label for="selectAll"><strong>15 camps selected</strong></label>
+                <span style="margin-left: 20px;">
+                    Bulk Actions:
+                    <select style="margin: 0 10px;">
+                        <option>Choose action...</option>
+                        <option>Change Status to Pending</option>
+                        <option>Change Status to Public</option>
+                        <option>Assign to Reviewer</option>
+                        <option>Mark High Priority</option>
+                        <option>Send Message</option>
+                        <option>Export Selected</option>
+                    </select>
+                    <div class="button primary">Apply</div>
+                </span>
+            </div>
+            <div>
+                <div class="button">Export All (CSV)</div>
+                <div class="button">Print View</div>
+                <div class="button">Column Settings</div>
+            </div>
+        </div>
+
+        <!-- MAIN TABLE -->
+        <div class="table-container">
+            <table class="table-mock">
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell">☑</th>
+                        <th class="column-header column-sort" draggable="true" data-column="0">
+                            Project Name <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-header column-sort" draggable="true" data-column="1">
+                            Lead First Name <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-header column-sort" draggable="true" data-column="2">
+                            Type <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-header column-sort" draggable="true" data-column="3">
+                            Short Description <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-header column-sort" draggable="true" data-column="4">
+                            Placer Notes <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-header column-sort" draggable="true" data-column="5">
+                            Final Neighborhood <span class="sort-indicator">↕</span>
+                            <div class="column-resizer"></div>
+                        </th>
+                        <th class="column-sort">Draft Neighborhood</th>
+                        <th class="column-sort">2nd Choice Neighborhood</th>
+                        <th class="column-sort">Rating</th>
+                        <th class="column-sort">Acre Request</th>
+                        <th class="column-sort">Sqft Request</th>
+                        <th class="column-sort">Frontage</th>
+                        <th class="column-sort">Depth</th>
+                        <th class="column-sort">Support</th>
+                        <th class="column-sort">Shared Resources?</th>
+                        <th class="column-sort">Not Near</th>
+                        <th class="column-sort">Population</th>
+                        <th class="column-sort">Images</th>
+                        <th class="column-sort">Appearance</th>
+                        <th class="column-sort">Interactivity</th>
+                        <th class="column-sort">Uneven Ground?</th>
+                        <th class="column-sort">Trees?</th>
+                        <th class="column-sort">CVs?</th>
+                        <th class="column-sort">Large Infrastructure</th>
+                        <th class="column-sort">Fire?</th>
+                        <th class="column-sort">Fire Ceiling?</th>
+                        <th class="column-sort">Fire Proofiness?</th>
+                        <th class="column-sort">Fire Description</th>
+                        <th class="column-sort">Fire Turn Off Plan</th>
+                        <th class="column-sort">Parking?</th>
+                        <th class="column-sort">SV Description</th>
+                        <th class="column-sort">Sound</th>
+                        <th class="column-sort">Sound Description</th>
+                        <th class="column-sort">Sound Bleed Plan</th>
+                        <th class="column-sort">Sound Hours Thursday</th>
+                        <th class="column-sort">Sound Hours Friday</th>
+                        <th class="column-sort">Sound Hours Saturday</th>
+                        <th class="column-sort">Sound Hours Sunday</th>
+                        <th class="column-sort">Sound Hours (Art)</th>
+                        <th class="column-sort">Sound Zone</th>
+                        <th class="column-sort">SZ Make It Work</th>
+                        <th class="column-sort">The Meadow</th>
+                        <th class="column-sort">Forest Entry</th>
+                        <th class="column-sort">Main Field</th>
+                        <th class="column-sort">North Point Forest</th>
+                        <th class="column-sort">Riverside</th>
+                        <th class="column-sort">Mezzanine</th>
+                        <th class="column-sort">Lower Bowl</th>
+                        <th class="column-sort">Upper Bowl</th>
+                        <th class="column-sort">DGS</th>
+                        <th class="column-sort">WAP</th>
+                        <th class="column-sort">Grant</th>
+                        <th class="column-sort">Comments</th>
+                        <th class="column-sort">FIRST TIME?</th>
+                        <th class="column-sort">Changes</th>
+                        <th class="column-sort">SOAK Train?</th>
+                        <th class="column-sort">Gray Water Tanks?</th>
+                        <th class="column-sort">Kids?</th>
+                        <th class="column-sort">Accessibility?</th>
+                        <th class="column-sort">Accessibility Placement?</th>
+                        <th class="column-sort">Describe Accessibility</th>
+                        <th class="column-sort">Parking Description</th>
+                        <th class="column-sort">In/Out</th>
+                        <th class="column-sort">Liquid Fuels</th>
+                        <th class="column-sort">Propane</th>
+                        <th class="column-sort">Propane Tank</th>
+                        <th class="column-sort">HO: Morning</th>
+                        <th class="column-sort">HO: Afternoon</th>
+                        <th class="column-sort">HO: Evening</th>
+                        <th class="column-sort">HO: Late Night</th>
+                        <th class="column-sort">Meals</th>
+                        <th class="column-sort">Snacks</th>
+                        <th class="column-sort">Tea</th>
+                        <th class="column-sort">Coffee</th>
+                        <th class="column-sort">Cold Non-Alcoholic Beverages</th>
+                        <th class="column-sort">Alcohol/Bar</th>
+                        <th class="column-sort">Class/Workshops</th>
+                        <th class="column-sort">Dance Party</th>
+                        <th class="column-sort">Live Instruments/Performance</th>
+                        <th class="column-sort">Kid Friendly Activities</th>
+                        <th class="column-sort">Adult-Only Sexual Activities</th>
+                        <th class="column-sort">Ritual/Ceremony</th>
+                        <th class="column-sort">Self Care/Repair</th>
+                        <th class="column-sort">Sustainability/Greening</th>
+                        <th class="column-sort">Yoga/Movement/Fitness</th>
+                        <th class="column-sort">Fire Circle?</th>
+                        <th class="column-sort">Height</th>
+                        <th class="column-sort">Climbed?</th>
+                        <th class="column-sort">Lighting?</th>
+                        <th class="column-sort">Lighting Description</th>
+                        <th class="column-sort">Power?</th>
+                        <th class="column-sort">Power Description</th>
+                        <th class="column-sort">Power Safety</th>
+                        <th class="column-sort">Power for MV?</th>
+                        <th class="column-sort">Digging?</th>
+                        <th class="column-sort">Digging Description</th>
+                        <th class="column-sort">Participants to Ride</th>
+                        <th class="column-sort">Lead Name</th>
+                        <th class="column-sort">Lead Email</th>
+                        <th class="column-sort">Lead Phone</th>
+                        <th class="column-sort">Second in Command</th>
+                        <th class="column-sort">Second Email</th>
+                        <th class="column-sort">Second Phone</th>
+                        <th class="column-sort">Share Lead</th>
+                        <th class="column-sort">Share Second</th>
+                        <th class="column-sort">Add to App?</th>
+                        <th class="column-sort">Sound Lead Name</th>
+                        <th class="column-sort">Sound Lead Email</th>
+                        <th class="column-sort">Sound Lead Phone</th>
+                        <th class="column-sort">Fire Safety Lead Name</th>
+                        <th class="column-sort">Fire Safety Lead Email</th>
+                        <th class="column-sort">Fire Safety Lead Phone</th>
+                        <th class="column-sort">Fire Circle Lead Name</th>
+                        <th class="column-sort">Fire Circle Lead Email</th>
+                        <th class="column-sort">Fire Circle Lead Phone</th>
+                        <th class="column-sort">LNT Plan!</th>
+                        <th class="column-sort">LNT Lead Name</th>
+                        <th class="column-sort">LNT Lead Email</th>
+                        <th class="column-sort">LNT Lead Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="priority-high">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Disco Inferno</strong></td>
+                        <td>Jane</td>
+                        <td><span class="camp-type-theme">Theme</span></td>
+                        <td>70s disco dance camp</td>
+                        <td>Loud music concerns, check placement</td>
+                        <td>Sound Zone</td>
+                        <td>Sound Zone</td>
+                        <td>Main Plaza</td>
+                        <td>4.2</td>
+                        <td>0.03</td>
+                        <td>1200</td>
+                        <td>30'</td>
+                        <td>40'</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Quiet camps</td>
+                        <td>25</td>
+                        <td>3 images</td>
+                        <td>Disco balls, neon lights</td>
+                        <td>Dance, DJ workshops</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>DJ booth, sound system</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Special vehicle access</td>
+                        <td>Yes</td>
+                        <td>4000W speakers, DJ setup</td>
+                        <td>Directional speakers</td>
+                        <td>6PM-11PM</td>
+                        <td>8PM-2AM</td>
+                        <td>8PM-2AM</td>
+                        <td>6PM-11PM</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Can work with restrictions</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>-</td>
+                        <td>COMMENTS: First time group</td>
+                        <td>Yes</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Easy vehicle access</td>
+                        <td>Load in Fri, out Sun</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>20lb tank</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>LED string lights</td>
+                        <td>Decorative LED strings</td>
+                        <td>Yes</td>
+                        <td>30A 220V for sound</td>
+                        <td>Licensed electrician setup</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Jane Smith</td>
+                        <td>jane@disco.com</td>
+                        <td>(555) 123-4567</td>
+                        <td>Mike DJ</td>
+                        <td>mike@disco.com</td>
+                        <td>(555) 234-5678</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>DJ Mike</td>
+                        <td>mike@disco.com</td>
+                        <td>(555) 234-5678</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Jane Smith</td>
+                        <td>jane@disco.com</td>
+                        <td>(555) 123-4567</td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <tr class="priority-medium">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Art Haven</strong></td>
+                        <td>Bob</td>
+                        <td><span class="camp-type-theme">Theme</span></td>
+                        <td>Interactive sculpture camp</td>
+                        <td>Fire safety plan needs review</td>
+                        <td>Main Plaza</td>
+                        <td>Main Plaza</td>
+                        <td>Art Zone</td>
+                        <td>3.8</td>
+                        <td>0.02</td>
+                        <td>600</td>
+                        <td>20'</td>
+                        <td>30'</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Loud sound camps</td>
+                        <td>18</td>
+                        <td>5 images</td>
+                        <td>Metal sculptures</td>
+                        <td>Art creation workshops</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Welding station</td>
+                        <td>Yes</td>
+                        <td>8 feet</td>
+                        <td>Fire retardant materials</td>
+                        <td>Metal fire sculptures</td>
+                        <td>CO2 extinguisher system</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>3</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>Experienced art camp</td>
+                        <td>No</td>
+                        <td>Added fire element</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Vehicle access for art</td>
+                        <td>Load in Thu, out Mon</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>12 feet</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Solar LED spots</td>
+                        <td>Yes</td>
+                        <td>15A 110V welding</td>
+                        <td>GFCI protected circuits</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Bob Wilson</td>
+                        <td>bob@arthaven.org</td>
+                        <td>(555) 345-6789</td>
+                        <td>Sarah Metal</td>
+                        <td>sarah@arthaven.org</td>
+                        <td>(555) 456-7890</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Tom Fire</td>
+                        <td>tom@firesafety.org</td>
+                        <td>(555) 567-8901</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Sarah Metal</td>
+                        <td>sarah@arthaven.org</td>
+                        <td>(555) 456-7890</td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <tr class="priority-low">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Phoenix Rising</strong></td>
+                        <td>Sara</td>
+                        <td><span class="camp-type-theme">Theme</span></td>
+                        <td>Fire performance & live music</td>
+                        <td>PLACED: Art Zone Block C-4. All approvals complete.</td>
+                        <td>Art Zone</td>
+                        <td>Art Zone</td>
+                        <td>Main Plaza</td>
+                        <td>4.5</td>
+                        <td>0.04</td>
+                        <td>625</td>
+                        <td>25'</td>
+                        <td>25'</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Water features</td>
+                        <td>32</td>
+                        <td>7 images</td>
+                        <td>Phoenix sculptures, fire stage</td>
+                        <td>Fire performance, live music</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Performance stage, fire circles</td>
+                        <td>Yes</td>
+                        <td>12 feet</td>
+                        <td>Fire retardant stage</td>
+                        <td>Fire performance art, torches</td>
+                        <td>Manual shutoff, fire safety crew</td>
+                        <td>Yes</td>
+                        <td>Performance vehicle access</td>
+                        <td>Yes</td>
+                        <td>Live band setup, acoustic + small PA</td>
+                        <td>Directional speakers, limited bleed</td>
+                        <td>6PM-10PM</td>
+                        <td>7PM-12AM</td>
+                        <td>7PM-12AM</td>
+                        <td>6PM-10PM</td>
+                        <td>Performance hours</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>Experienced fire performance group</td>
+                        <td>No</td>
+                        <td>Added live music element</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Wheelchair accessible stage</td>
+                        <td>Equipment and performer access</td>
+                        <td>Load in Thu, out Mon</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>40lb tank for fire effects</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>15 feet</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Stage lighting, fire-safe LEDs</td>
+                        <td>Yes</td>
+                        <td>20A 110V for sound, lighting</td>
+                        <td>Licensed electrician, fire safety</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Sara Lee</td>
+                        <td>sara@phoenix.net</td>
+                        <td>(555) 678-9012</td>
+                        <td>Tom Fire</td>
+                        <td>tom@phoenix.net</td>
+                        <td>(555) 789-0123</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Sara Lee</td>
+                        <td>sara@phoenix.net</td>
+                        <td>(555) 678-9012</td>
+                        <td>Tom Fire</td>
+                        <td>tom@firesafety.org</td>
+                        <td>(555) 234-5678</td>
+                        <td>Tom Fire</td>
+                        <td>tom@firesafety.org</td>
+                        <td>(555) 234-5678</td>
+                        <td>Yes</td>
+                        <td>Sara Lee</td>
+                        <td>sara@phoenix.net</td>
+                        <td>(555) 678-9012</td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <tr class="priority-high">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Coffee & Connection</strong></td>
+                        <td>Mike</td>
+                        <td><span class="camp-type-support">Support</span></td>
+                        <td>Morning coffee & community gathering</td>
+                        <td>Missing layout diagram and crew details. Follow up needed.</td>
+                        <td>-</td>
+                        <td>No Preference</td>
+                        <td>Near Center Camp</td>
+                        <td>2.8</td>
+                        <td>0.01</td>
+                        <td>300</td>
+                        <td>15'</td>
+                        <td>20'</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>-</td>
+                        <td>8</td>
+                        <td>2 images</td>
+                        <td>Coffee cart, seating area</td>
+                        <td>Coffee service, morning gathering</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Coffee cart, canopy</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>-</td>
+                        <td>New camp, incomplete application</td>
+                        <td>Yes</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Cart setup, easy access</td>
+                        <td>Setup Fri AM, out Sun PM</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Small 5lb tank</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Battery powered lights</td>
+                        <td>Small LED string</td>
+                        <td>Yes</td>
+                        <td>15A 110V for coffee equipment</td>
+                        <td>GFCI outlets for safety</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Mike Coffee</td>
+                        <td>mike@coffee.com</td>
+                        <td>(555) 890-1234</td>
+                        <td>Lisa Helper</td>
+                        <td>lisa@coffee.com</td>
+                        <td>(555) 901-2345</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Mike Coffee</td>
+                        <td>mike@coffee.com</td>
+                        <td>(555) 890-1234</td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <tr class="priority-medium">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Ranger Station Alpha</strong></td>
+                        <td>Lisa</td>
+                        <td><span class="camp-type-work">Work</span></td>
+                        <td>Primary ranger station & event support</td>
+                        <td>PLACED: Gate area as requested. Radio infrastructure confirmed.</td>
+                        <td>Entry Gate Area</td>
+                        <td>Entry Gate Area</td>
+                        <td>Near Rangers HQ</td>
+                        <td>5.0</td>
+                        <td>0.015</td>
+                        <td>400</td>
+                        <td>20'</td>
+                        <td>20'</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>12</td>
+                        <td>1 image</td>
+                        <td>Ranger station, radio tower</td>
+                        <td>Event support, ranger services</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Radio tower, emergency station</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Emergency vehicle access</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>Approved</td>
+                        <td>Official SOAK work camp</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>ADA compliant station</td>
+                        <td>Emergency services access</td>
+                        <td>Setup Wed, breakdown Mon</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Emergency lighting, radio lights</td>
+                        <td>Emergency LED system</td>
+                        <td>Yes</td>
+                        <td>20A 110V for radio, emergency equipment</td>
+                        <td>Professional electrical installation</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Lisa Ranger</td>
+                        <td>lisa@soak.org</td>
+                        <td>(555) 012-3456</td>
+                        <td>Bob Deputy</td>
+                        <td>bob@soak.org</td>
+                        <td>(555) 123-4567</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>Yes</td>
+                        <td>Lisa Ranger</td>
+                        <td>lisa@soak.org</td>
+                        <td>(555) 012-3456</td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <tr class="priority-high">
+                        <td class="checkbox-cell"><input type="checkbox"></td>
+                        <td><strong>Neon Dreams</strong></td>
+                        <td>Alex</td>
+                        <td><span class="camp-type-theme">Theme</span></td>
+                        <td>Electronic music & laser light show</td>
+                        <td>Compliance issues from 2024. Reviewing current application carefully. Missing safety documentation.</td>
+                        <td>-</td>
+                        <td>Sound Zone</td>
+                        <td>Far from quiet camps</td>
+                        <td>2.1</td>
+                        <td>0.09</td>
+                        <td>2000</td>
+                        <td>40'</td>
+                        <td>50'</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Quiet areas, family camps</td>
+                        <td>45</td>
+                        <td>4 images</td>
+                        <td>Large LED displays, DJ booth</td>
+                        <td>Electronic music, late night dancing</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Large DJ booth, LED walls</td>
+                        <td>Yes</td>
+                        <td>15 feet</td>
+                        <td><span style="color: red;">Missing documentation</span></td>
+                        <td>Fire effects, pyrotechnics</td>
+                        <td><span style="color: red;">No safety plan submitted</span></td>
+                        <td>Yes</td>
+                        <td>Large equipment trucks</td>
+                        <td>Yes</td>
+                        <td>8000W system, full DJ booth, lasers</td>
+                        <td><span style="color: red;">No bleed plan submitted</span></td>
+                        <td>8PM-12AM</td>
+                        <td>10PM-4AM</td>
+                        <td>10PM-4AM</td>
+                        <td>8PM-12AM</td>
+                        <td>All night operation</td>
+                        <td>Yes</td>
+                        <td>Needs sound restrictions</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>1</td>
+                        <td>0</td>
+                        <td>Approved but provisional</td>
+                        <td>Previous compliance violations 2024</td>
+                        <td>No</td>
+                        <td>Expanded significantly</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>Heavy equipment access required</td>
+                        <td>Load in Wed, out Tue</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>Multiple large tanks</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>No</td>
+                        <td>20 feet</td>
+                        <td>No</td>
+                        <td>Yes</td>
+                        <td>Massive LED lighting arrays</td>
+                        <td>Yes</td>
+                        <td>50A 220V for sound, lighting</td>
+                        <td><span style="color: red;">Safety plan missing</span></td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>-</td>
+                        <td>No</td>
+                        <td>Alex Neon</td>
+                        <td>alex@neondreams.io</td>
+                        <td>(555) 234-5678</td>
+                        <td>DJ Neon</td>
+                        <td>dj@neondreams.io</td>
+                        <td>(555) 345-6789</td>
+                        <td>Yes</td>
+                        <td>Yes</td>
+                        <td>No</td>
+                        <td>DJ Neon</td>
+                        <td>dj@neondreams.io</td>
+                        <td>(555) 345-6789</td>
+                        <td><span style="color: red;">Missing</span></td>
+                        <td><span style="color: red;">-</span></td>
+                        <td><span style="color: red;">-</span></td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td><span style="color: red;">Missing</span></td>
+                        <td><span style="color: red;">Missing</span></td>
+                        <td><span style="color: red;">Missing</span></td>
+                        <td><span style="color: red;">Missing</span></td>
+                        <td class="actions-cell">
+                            <div class="button small">View</div>
+                            <div class="button small">Edit</div>
+                        </td>
+                    </tr>
+
+                    <!-- Additional rows indicator -->
+                    <tr style="background: #f0f0f0; text-align: center; font-style: italic; color: #666;">
+                        <td colspan="114">... 121 additional camps (use pagination or scroll to see more) ...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PAGINATION & SUMMARY -->
+        <div class="pagination">
+            <div>
+                <strong>Showing 1-25 of 127 camps</strong>
+                <span style="margin-left: 20px;">
+                    Rows per page:
+                    <select>
+                        <option>25</option>
+                        <option>50</option>
+                        <option>100</option>
+                        <option>All</option>
+                    </select>
+                </span>
+            </div>
+            <div>
+                <div class="button">⬅ Previous</div>
+                <span style="margin: 0 15px;">Page 1 of 6</span>
+                <div class="button">Next ➡</div>
+                <span style="margin-left: 20px;">
+                    <div class="button">Jump to page: <input type="number" style="width: 50px; margin-left: 5px;"></div>
+                </span>
+            </div>
+        </div>
+
+        <!-- SUMMARY STATS BAR -->
+        <div style="background: #e8f4fd; padding: 15px; border: 1px solid #2196F3; margin-top: 20px;">
+            <div style="display: flex; justify-content: space-between; font-size: 13px;">
+                <div><strong>Status Summary:</strong>
+                    Submitted: 45 | Draft: 23 | Pending: 38 | Public: 21
+                </div>
+                <div><strong>Special Requirements:</strong>
+                    Fire Art: 12 | Sound Camps: 28 | Large Layouts: 8
+                </div>
+                <div><strong>Priority Queue:</strong>
+                    High: 15 | Medium: 67 | Low: 45
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Global variables
+        let draggedColumn = null;
+        let sortDirection = {};
+        let allRows = [];
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTable();
+            setupDragAndDrop();
+            setupSorting();
+            setupBulkActions();
+        });
+
+        function initializeTable() {
+            // Store original row data for filtering
+            const tbody = document.querySelector('.table-mock tbody');
+            allRows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.textContent.includes('additional camps'));
+        }
+
+        // DRAG AND DROP FUNCTIONALITY
+        function setupDragAndDrop() {
+            const headers = document.querySelectorAll('.column-header');
+
+            headers.forEach((header, index) => {
+                header.addEventListener('dragstart', handleDragStart);
+                header.addEventListener('dragover', handleDragOver);
+                header.addEventListener('drop', handleDrop);
+                header.addEventListener('dragend', handleDragEnd);
+            });
+        }
+
+        function handleDragStart(e) {
+            draggedColumn = this;
+            this.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.outerHTML);
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault();
+            }
+            this.classList.add('drag-over');
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (draggedColumn !== this) {
+                // Get column indices
+                const draggedIndex = Array.from(draggedColumn.parentNode.children).indexOf(draggedColumn);
+                const targetIndex = Array.from(this.parentNode.children).indexOf(this);
+
+                // Move header
+                const headerRow = document.querySelector('.table-mock thead tr');
+                if (draggedIndex < targetIndex) {
+                    headerRow.insertBefore(draggedColumn, this.nextSibling);
+                } else {
+                    headerRow.insertBefore(draggedColumn, this);
+                }
+
+                // Move corresponding cells in all data rows
+                const rows = document.querySelectorAll('.table-mock tbody tr');
+                rows.forEach(row => {
+                    const cells = Array.from(row.children);
+                    const draggedCell = cells[draggedIndex];
+                    const targetCell = cells[targetIndex];
+
+                    if (draggedCell && targetCell) {
+                        if (draggedIndex < targetIndex) {
+                            row.insertBefore(draggedCell, targetCell.nextSibling);
+                        } else {
+                            row.insertBefore(draggedCell, targetCell);
+                        }
+                    }
+                });
+
+                console.log(`Moved column ${draggedIndex} to position ${targetIndex}`);
+            }
+
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            const headers = document.querySelectorAll('.column-header');
+            headers.forEach(header => {
+                header.classList.remove('dragging');
+                header.classList.remove('drag-over');
+            });
+        }
+
+        // SORTING FUNCTIONALITY
+        function setupSorting() {
+            const sortableHeaders = document.querySelectorAll('.column-sort');
+
+            sortableHeaders.forEach((header, index) => {
+                header.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('column-resizer')) return;
+                    sortTable(index);
+                });
+            });
+        }
+
+        function sortTable(columnIndex) {
+            const tbody = document.querySelector('.table-mock tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr')).filter(row => !row.textContent.includes('additional camps'));
+
+            // Toggle sort direction
+            sortDirection[columnIndex] = sortDirection[columnIndex] === 'asc' ? 'desc' : 'asc';
+
+            // Sort rows
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex] ? a.cells[columnIndex].textContent.trim() : '';
+                const bText = b.cells[columnIndex] ? b.cells[columnIndex].textContent.trim() : '';
+
+                // Try to parse as numbers first
+                const aNum = parseFloat(aText);
+                const bNum = parseFloat(bText);
+
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return sortDirection[columnIndex] === 'asc' ? aNum - bNum : bNum - aNum;
+                }
+
+                // String comparison
+                return sortDirection[columnIndex] === 'asc' ?
+                    aText.localeCompare(bText) :
+                    bText.localeCompare(aText);
+            });
+
+            // Update sort indicators
+            updateSortIndicators(columnIndex);
+
+            // Re-append sorted rows
+            rows.forEach(row => tbody.appendChild(row));
+
+            console.log(`Sorted column ${columnIndex} ${sortDirection[columnIndex]}`);
+        }
+
+        function updateSortIndicators(activeColumn) {
+            const indicators = document.querySelectorAll('.sort-indicator');
+            indicators.forEach((indicator, index) => {
+                if (index === activeColumn) {
+                    indicator.textContent = sortDirection[activeColumn] === 'asc' ? '↑' : '↓';
+                } else {
+                    indicator.textContent = '↕';
+                }
+            });
+        }
+
+        // FILTERING FUNCTIONALITY
+        function applyFilters() {
+            const tbody = document.querySelector('.table-mock tbody');
+            const filters = getFilterValues();
+
+            allRows.forEach(row => {
+                let shouldShow = true;
+
+                // Apply each filter
+                Object.keys(filters).forEach(filterKey => {
+                    if (filters[filterKey] && filters[filterKey] !== 'All' && !filters[filterKey].startsWith('All ')) {
+                        shouldShow = shouldShow && checkRowMatchesFilter(row, filterKey, filters[filterKey]);
+                    }
+                });
+
+                // Show/hide row
+                if (shouldShow) {
+                    row.classList.remove('filtered-row');
+                } else {
+                    row.classList.add('filtered-row');
+                }
+            });
+
+            updateResultCount();
+            console.log('Filters applied:', filters);
+        }
+
+        function getFilterValues() {
+            return {
+                type: document.querySelector('select').value, // First select is Type
+                // Add more filter mappings as needed
+            };
+        }
+
+        function checkRowMatchesFilter(row, filterKey, filterValue) {
+            // Simplified filter logic - expand based on actual column mappings
+            switch(filterKey) {
+                case 'type':
+                    const typeCell = row.cells[2]; // Type column
+                    return typeCell && typeCell.textContent.includes(filterValue);
+                default:
+                    return true;
+            }
+        }
+
+        function clearFilters() {
+            // Reset all filter selects and inputs
+            const selects = document.querySelectorAll('.filter-item select');
+            const inputs = document.querySelectorAll('.filter-item input');
+
+            selects.forEach(select => select.selectedIndex = 0);
+            inputs.forEach(input => input.value = '');
+
+            // Show all rows
+            allRows.forEach(row => {
+                row.classList.remove('filtered-row');
+                // Remove search highlights
+                row.querySelectorAll('.search-highlight').forEach(highlight => {
+                    highlight.outerHTML = highlight.innerHTML;
+                });
+            });
+
+            updateResultCount();
+            console.log('Filters cleared');
+        }
+
+        function performSearch() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            allRows.forEach(row => {
+                if (!searchTerm) {
+                    row.classList.remove('filtered-row');
+                    // Remove existing highlights
+                    row.querySelectorAll('.search-highlight').forEach(highlight => {
+                        highlight.outerHTML = highlight.innerHTML;
+                    });
+                    return;
+                }
+
+                let found = false;
+                const cells = Array.from(row.cells);
+
+                // Remove existing highlights first
+                row.querySelectorAll('.search-highlight').forEach(highlight => {
+                    highlight.outerHTML = highlight.innerHTML;
+                });
+
+                cells.forEach(cell => {
+                    const cellText = cell.textContent.toLowerCase();
+                    if (cellText.includes(searchTerm)) {
+                        found = true;
+                        // Highlight matching text
+                        const regex = new RegExp(`(${searchTerm})`, 'gi');
+                        cell.innerHTML = cell.innerHTML.replace(regex, '<span class="search-highlight">$1</span>');
+                    }
+                });
+
+                if (found) {
+                    row.classList.remove('filtered-row');
+                } else {
+                    row.classList.add('filtered-row');
+                }
+            });
+
+            updateResultCount();
+        }
+
+        function updateResultCount() {
+            const visibleRows = allRows.filter(row => !row.classList.contains('filtered-row')).length;
+            const totalRows = allRows.length;
+
+            // Update the pagination info
+            const paginationText = document.querySelector('.pagination div');
+            if (paginationText) {
+                paginationText.innerHTML = `<strong>Showing ${visibleRows} of ${totalRows} camps</strong>`;
+            }
+        }
+
+        // BULK ACTIONS
+        function setupBulkActions() {
+            const selectAllCheckbox = document.getElementById('selectAll');
+
+            selectAllCheckbox.addEventListener('change', function() {
+                const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                updateBulkActionCount();
+            });
+
+            // Individual checkbox listeners
+            document.addEventListener('change', function(e) {
+                if (e.target.type === 'checkbox' && e.target !== selectAllCheckbox) {
+                    updateBulkActionCount();
+                }
+            });
+        }
+
+        function updateBulkActionCount() {
+            const checkedBoxes = document.querySelectorAll('tbody input[type="checkbox"]:checked');
+            const countLabel = document.querySelector('.bulk-actions label');
+            if (countLabel) {
+                countLabel.innerHTML = `<strong>${checkedBoxes.length} camps selected</strong>`;
+            }
+        }
+
+        // COLUMN RESIZING (bonus feature)
+        function setupColumnResizing() {
+            const resizers = document.querySelectorAll('.column-resizer');
+
+            resizers.forEach(resizer => {
+                let isResizing = false;
+
+                resizer.addEventListener('mousedown', function(e) {
+                    isResizing = true;
+                    document.addEventListener('mousemove', handleResize);
+                    document.addEventListener('mouseup', stopResize);
+                    e.preventDefault();
+                });
+
+                function handleResize(e) {
+                    if (!isResizing) return;
+
+                    const header = resizer.parentElement;
+                    const rect = header.getBoundingClientRect();
+                    const newWidth = e.clientX - rect.left;
+
+                    if (newWidth > 50) { // Minimum width
+                        header.style.width = newWidth + 'px';
+                    }
+                }
+
+                function stopResize() {
+                    isResizing = false;
+                    document.removeEventListener('mousemove', handleResize);
+                    document.removeEventListener('mouseup', stopResize);
+                }
+            });
+        }
+
+        // Initialize column resizing
+        document.addEventListener('DOMContentLoaded', setupColumnResizing);
+
+    </script>
+
+</body>
+</html>
